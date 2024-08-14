@@ -1,5 +1,5 @@
 
-import { createUser, deleteUser, getUserByEmail, getUserByID, getUsers, updateUser, updateUserByIDwithPassword } from '../DB/metodos';
+import { createUser, deleteUser, getUserByEmail, getUserByEmailwhitAuth, getUserByID, getUsers, updateUser, updateUserByIDwithPassword } from '../DB/metodos';
 import { authentication, random } from '../helper/helper';
 import express from 'express';
 
@@ -191,4 +191,32 @@ export const getUserEmail = async (Request: express.Request , Response: express.
     }
 }
 
+//get com auth por email
 
+export const getUserEmailwithauth = async (Request: express.Request , Response: express.Response)=>{
+    try{
+
+        //colhendo o email do parametro query
+        const email = Request.params.email;
+
+        //validando se email foi enviado pela query
+        if(!email){
+            return Response.status(400).json({error: "email is required"})
+        }
+
+        //localizando email com metodo get
+        const existUser = await getUserByEmailwhitAuth(email)
+
+        //verificando se foi localizado
+        if(!existUser){
+            return Response.status(404).json({error: "email not found"})
+        }
+
+        //retornando usuario 
+        return Response.status(200).json(existUser)
+
+    }catch(error){
+        console.log(error)
+        return Response.status(500).send()
+    }
+}

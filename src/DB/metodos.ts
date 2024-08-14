@@ -12,6 +12,9 @@ export const getUsers = () => ModelUser.find({},{authentication: 0})
 export const getUserByEmail = (email: string) => ModelUser.findOne({email}, {authentication: 0})
 export const getUserByID = (id: string) => ModelUser.findById(id, {authentication: 0})
 
+//get com retorno de auth
+
+export const getUserByEmailwhitAuth = (email: string) => ModelUser.findOne({email})
 
 
 //metodo create 

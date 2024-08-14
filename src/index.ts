@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { create, deleteByEmail, getUserEmail, getUsersALL, updateById, updatePasswordbyID } from "./controller/authentication";
+import { create, deleteByEmail, getUserEmail, getUserEmailwithauth, getUsersALL, updateById, updatePasswordbyID } from "./controller/authentication";
 
 const app = express();
 app.use(express.json())
@@ -17,8 +17,13 @@ app.listen(3000, () =>{
 //get buscando todos os usuarios
 app.get('/', getUsersALL)
 
-//get buscando por email nos parametros teste: http://localhost:3000/email/felipe@123.com
+
+
+//get buscando por email sem auth nos parametros teste: http://localhost:3000/email/felipe@123.com
 app.get('/email/:email', getUserEmail)
+
+//get buscando user por email com auth
+app.get('/auth/userwithauth', getUserEmailwithauth)
 
 
 //create //verifica se ja possui cadastro por email
