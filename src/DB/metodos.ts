@@ -13,7 +13,6 @@ export const getUserByEmail = (email: string) => ModelUser.findOne({email}, {aut
 export const getUserByID = (id: string) => ModelUser.findById(id, {authentication: 0})
 
 //get com retorno de auth
-
 export const getUserByEmailwhitAuth = (email: string) => ModelUser.findOne({email})
 
 

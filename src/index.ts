@@ -23,7 +23,7 @@ app.get('/', getUsersALL)
 app.get('/email/:email', getUserEmail)
 
 //get buscando user por email com auth
-app.get('/auth/userwithauth', getUserEmailwithauth)
+app.get('/auth/:email', getUserEmailwithauth)
 
 
 //create //verifica se ja possui cadastro por email
