@@ -2,11 +2,10 @@
   "name": "apirestfulsimples",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "build": "tsc",
-    "start": "node src/index.ts",
-    "dev": "nodemon src/index.ts",
+    "build": "tsc",                 
+    "start": "node dist/index.js",  
+    "dev": "ts-node src/index.ts",   
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
