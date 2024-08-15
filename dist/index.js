@@ -5,12 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-require-imports */
 const express_1 = __importDefault(require("express"));
-const mongoose_1 = require("mongoose");
+const mongoose = require("mongoose");
 const authentication_1 = require("./controller/authentication");
 require('dotenv').config();
 const MONGO_URL = process.env.NODE_ENV_MONGO_URL;
 //banco
-mongoose_1.connect(MONGO_URL);
+mongoose.connect(MONGO_URL);
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 //rodando
