@@ -1,17 +1,18 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable @typescript-eslint/no-require-imports */
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const authentication_1 = require("./controller/authentication");
+require('dotenv').config();
+const MONGO_URL = process.env.NODE_ENV_MONGO_URL;
+//banco
+mongoose_1.default.connect(MONGO_URL);
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-//banco
-const MONGO_URL = 'mongodb+srv://felipestempkowski2:3iBd1B2aj6xTe4mk@users.ikhyd.mongodb.net/?retryWrites=true&w=majority&appName=Users';
-mongoose_1.default.connect(MONGO_URL);
 //rodando
 app.listen(3000, () => {
     console.log("server running on http://localhost:3000/");

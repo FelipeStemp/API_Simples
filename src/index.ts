@@ -1,13 +1,17 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import express from "express";
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 import { create, deleteByEmail, getUserEmail, getUserEmailwithauth, getUsersALL, updateById, updatePasswordbyID } from "./controller/authentication";
+require('dotenv').config();
+
+const MONGO_URL= process.env.NODE_ENV_MONGO_URL
+
+//banco
+mongoose.connect(MONGO_URL)
 
 const app = express();
 app.use(express.json())
 
-//banco
-const MONGO_URL = 'mongodb+srv://felipestempkowski2:3iBd1B2aj6xTe4mk@users.ikhyd.mongodb.net/?retryWrites=true&w=majority&appName=Users'
-mongoose.connect(MONGO_URL)
 
 //rodando
 app.listen(3000, () =>{

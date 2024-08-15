@@ -16,8 +16,10 @@ export const create = async (Request: express.Request , Response: express.Respon
             return Response.sendStatus(400).json({erro: "Username, email, and password are required."})
         }
 
+        const lowerCaseEmail = email.toLowerCase();
+
         //procura o user dentro do servidor e guarda em uma const
-        const existUser = await getUserByEmail(email)
+        const existUser = await getUserByEmail(lowerCaseEmail)
 
         //valida de o usuario existe
         if(existUser){
@@ -30,7 +32,7 @@ export const create = async (Request: express.Request , Response: express.Respon
         //realiza a criação do usuario
         const user = await createUser({
             username,
-            email,
+            email: lowerCaseEmail,
             idade,
             authentication:{
                 salt,
@@ -57,8 +59,10 @@ export const deleteByEmail = async (Request: express.Request , Response: express
             return Response.status(400).send().json({error: "email is required."})
         }
 
+        const lowerCaseEmail = email.toLowerCase();
+        
         //procura o user dentro do servidor e guarda em uma const
-        const existUser = await getUserByEmail(email)
+        const existUser = await getUserByEmail(lowerCaseEmail)
 
         //verifica se a const foi preenchida
         if(!existUser){
@@ -66,7 +70,7 @@ export const deleteByEmail = async (Request: express.Request , Response: express
         }
         
         //realiza a exclusão do usuario vinculado ao email
-        await deleteUser(email)
+        await deleteUser(lowerCaseEmail)
 
         return Response.status(200).send("User was deleted")
 
@@ -88,6 +92,8 @@ export const updateById = async(Request: express.Request, Response: express.Resp
             return Response.status(400).json({error: "Id is required"})
         }
 
+        const lowerCaseEmail = email.toLowerCase();
+
         // buscando o usuario por id e adicionando na const
         const existUser = await getUserByID(id)
 
@@ -99,7 +105,7 @@ export const updateById = async(Request: express.Request, Response: express.Resp
         //realizando o metodo updateUser que valida o id e atualiza os valores
         const user = await updateUser(id, {
             username,
-            email,
+            email: lowerCaseEmail,
             idade
         })
 
@@ -167,7 +173,7 @@ export const getUserEmail = async (Request: express.Request , Response: express.
     try{
 
         //colhendo o email do parametro query
-        const email = Request.params.email;
+        const email = Request.params.email.toLocaleLowerCase();
 
         //validando se email foi enviado pela query
         if(!email){
@@ -197,7 +203,7 @@ export const getUserEmailwithauth = async (Request: express.Request , Response: 
     try{
 
         //colhendo o email do parametro query
-        const email = Request.params.email;
+        const email = Request.params.email.toLocaleLowerCase();
 
         //validando se email foi enviado pela query
         if(!email){

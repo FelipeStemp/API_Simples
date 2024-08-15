@@ -20,8 +20,9 @@ const create = (Request, Response) => __awaiter(void 0, void 0, void 0, function
         if (!username || !email || !password) {
             return Response.sendStatus(400).json({ erro: "Username, email, and password are required." });
         }
+        const lowerCaseEmail = email.toLowerCase();
         //procura o user dentro do servidor e guarda em uma const
-        const existUser = yield (0, metodos_1.getUserByEmail)(email);
+        const existUser = yield (0, metodos_1.getUserByEmail)(lowerCaseEmail);
         //valida de o usuario existe
         if (existUser) {
             return Response.sendStatus(409).json({ erro: "User is already register" });
@@ -31,7 +32,7 @@ const create = (Request, Response) => __awaiter(void 0, void 0, void 0, function
         //realiza a criação do usuario
         const user = yield (0, metodos_1.createUser)({
             username,
-            email,
+            email: lowerCaseEmail,
             idade,
             authentication: {
                 salt,
@@ -54,14 +55,15 @@ const deleteByEmail = (Request, Response) => __awaiter(void 0, void 0, void 0, f
         if (!email) {
             return Response.status(400).send().json({ error: "email is required." });
         }
+        const lowerCaseEmail = email.toLowerCase();
         //procura o user dentro do servidor e guarda em uma const
-        const existUser = yield (0, metodos_1.getUserByEmail)(email);
+        const existUser = yield (0, metodos_1.getUserByEmail)(lowerCaseEmail);
         //verifica se a const foi preenchida
         if (!existUser) {
             return Response.status(404).send();
         }
         //realiza a exclusão do usuario vinculado ao email
-        yield (0, metodos_1.deleteUser)(email);
+        yield (0, metodos_1.deleteUser)(lowerCaseEmail);
         return Response.status(200).send("User was deleted");
     }
     catch (error) {
@@ -79,6 +81,7 @@ const updateById = (Request, Response) => __awaiter(void 0, void 0, void 0, func
         if (!id) {
             return Response.status(400).json({ error: "Id is required" });
         }
+        const lowerCaseEmail = email.toLowerCase();
         // buscando o usuario por id e adicionando na const
         const existUser = yield (0, metodos_1.getUserByID)(id);
         //verificando se foi encontrado
@@ -88,7 +91,7 @@ const updateById = (Request, Response) => __awaiter(void 0, void 0, void 0, func
         //realizando o metodo updateUser que valida o id e atualiza os valores
         const user = yield (0, metodos_1.updateUser)(id, {
             username,
-            email,
+            email: lowerCaseEmail,
             idade
         });
         return Response.status(201).json(user);
@@ -143,7 +146,7 @@ exports.getUsersALL = getUsersALL;
 const getUserEmail = (Request, Response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         //colhendo o email do parametro query
-        const email = Request.params.email;
+        const email = Request.params.email.toLocaleLowerCase();
         //validando se email foi enviado pela query
         if (!email) {
             return Response.status(400).json({ error: "email is required" });
@@ -167,7 +170,7 @@ exports.getUserEmail = getUserEmail;
 const getUserEmailwithauth = (Request, Response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         //colhendo o email do parametro query
-        const email = Request.params.email;
+        const email = Request.params.email.toLocaleLowerCase();
         //validando se email foi enviado pela query
         if (!email) {
             return Response.status(400).json({ error: "email is required" });
