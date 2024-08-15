@@ -10,7 +10,7 @@ const authentication_1 = require("./controller/authentication");
 require('dotenv').config();
 const MONGO_URL = process.env.NODE_ENV_MONGO_URL;
 //banco
-mongoose_1.default.connect(MONGO_URL);
+mongoose_1.connect(MONGO_URL);
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 //rodando
