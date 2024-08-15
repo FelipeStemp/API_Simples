@@ -33,7 +33,7 @@ const create = (Request, Response) => __awaiter(void 0, void 0, void 0, function
         const user = yield (0, metodos_1.createUser)({
             username,
             email: lowerCaseEmail,
-            idade,
+            idade: idade || null,
             authentication: {
                 salt,
                 password: (0, helper_1.authentication)(salt, password)

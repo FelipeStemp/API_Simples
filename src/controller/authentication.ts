@@ -33,7 +33,7 @@ export const create = async (Request: express.Request , Response: express.Respon
         const user = await createUser({
             username,
             email: lowerCaseEmail,
-            idade,
+            idade: idade || null,
             authentication:{
                 salt,
                 password: authentication(salt, password)
