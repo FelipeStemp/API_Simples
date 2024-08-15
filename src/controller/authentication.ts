@@ -85,7 +85,8 @@ export const deleteByEmail = async (Request: express.Request , Response: express
 export const updateById = async(Request: express.Request, Response: express.Response)=>{
     try{
         // recebendo as informações
-        const {id, username, email, idade} = Request.body;
+        const id = Request.params.id
+        const { username, email, idade} = Request.body;
 
         //verificando se o id foi preenchido
         if(!id){

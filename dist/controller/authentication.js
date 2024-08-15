@@ -76,7 +76,8 @@ exports.deleteByEmail = deleteByEmail;
 const updateById = (Request, Response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // recebendo as informações
-        const { id, username, email, idade } = Request.body;
+        const id = Request.params.id;
+        const { username, email, idade } = Request.body;
         //verificando se o id foi preenchido
         if (!id) {
             return Response.status(400).json({ error: "Id is required" });

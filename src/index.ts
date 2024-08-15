@@ -50,7 +50,7 @@ app.delete('/auth/delete', deleteByEmail)
 
 
 //put atualizando dados sem senha
-app.put('/auth/update', updateById)
+app.put('/auth/update/:id', updateById)
 //teste update
 /**
   "id": "66bac495aff7d2c1d722e234",

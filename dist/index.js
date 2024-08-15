@@ -39,7 +39,7 @@ app.delete('/auth/delete', authentication_1.deleteByEmail);
  * "email": "felipe@1234.com"
 */
 //put atualizando dados sem senha
-app.put('/auth/update', authentication_1.updateById);
+app.put('/auth/update/:id', authentication_1.updateById);
 //teste update
 /**
   "id": "66bac495aff7d2c1d722e234",
