@@ -106,8 +106,9 @@ exports.updateById = updateById;
 //update de password
 const updatePasswordbyID = (Request, Response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const id = Request.params.id;
         //request dos dados
-        const { id, newPassword } = Request.body;
+        const { newPassword } = Request.body;
         //validando se os dados foram passados
         if (!id || !newPassword) {
             return Response.status(400).json({ error: "Id and newPassword are required" });

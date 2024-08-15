@@ -60,7 +60,7 @@ app.put('/auth/update/:id', updateById)
 */
 
 //put atualizando senha
-app.put('/auth/updatePassword', updatePasswordbyID)
+app.put('/auth/updatePassword/:id', updatePasswordbyID)
 //teste
 /*
   "id": "66bac495aff7d2c1d722e234",

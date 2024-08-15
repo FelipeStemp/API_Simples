@@ -48,7 +48,7 @@ app.put('/auth/update/:id', authentication_1.updateById);
   "email": "felipe@okpekpoksa.com"
 */
 //put atualizando senha
-app.put('/auth/updatePassword', authentication_1.updatePasswordbyID);
+app.put('/auth/updatePassword/:id', authentication_1.updatePasswordbyID);
 //teste
 /*
   "id": "66bac495aff7d2c1d722e234",

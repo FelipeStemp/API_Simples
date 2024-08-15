@@ -123,8 +123,9 @@ export const updateById = async(Request: express.Request, Response: express.Resp
 export const updatePasswordbyID = async (Request: express.Request, Response: express.Response) =>{
     try{
 
+        const id = Request.params.id
         //request dos dados
-        const {id, newPassword} = Request.body
+        const { newPassword} = Request.body
 
         //validando se os dados foram passados
         if(!id || !newPassword){
