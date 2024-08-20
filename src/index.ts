@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import express from "express";
 const mongoose = require("mongoose");
+import swaggerUI from "swagger-ui-express"
+import swaggerDocument from "../swagger.json"
+
 import { create, deleteByEmail, getUserEmail, getUserEmailwithauth, getUsersALL, updateById, updatePasswordbyID } from "./controller/authentication";
 require('dotenv').config();
 
@@ -18,10 +21,13 @@ app.listen(3000, () =>{
     console.log("server running on http://localhost:3000/")
 })
 
+//Swagger
+app.use('/DocAPI-Simples', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+
+//GET
+
 //get buscando todos os usuarios
-app.get('/', getUsersALL)
-
-
+app.get('/all', getUsersALL)
 
 //get buscando por email sem auth nos parametros teste: http://localhost:3000/email/felipe@123.com
 app.get('/email/:email', getUserEmail)
@@ -29,6 +35,9 @@ app.get('/email/:email', getUserEmail)
 //get buscando user por email com auth
 app.get('/auth/:email', getUserEmailwithauth)
 
+
+
+//POST
 
 //create //verifica se ja possui cadastro por email
 app.post('/auth/create', create)
@@ -41,6 +50,7 @@ app.post('/auth/create', create)
 */
 
 
+//DELETE
 //delete por email
 app.delete('/auth/delete', deleteByEmail)
 //teste delete
@@ -49,6 +59,7 @@ app.delete('/auth/delete', deleteByEmail)
 */
 
 
+//PUT 
 //put atualizando dados sem senha
 app.put('/auth/update/:id', updateById)
 //teste update

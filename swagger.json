@@ -1,0 +1,506 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Usuários",
+    "description": "API para gerenciar usuários",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+        "url": "http://localhost:3000/"
+    },
+    {
+        "url": "https://api-simples-wy8c.onrender.com/"
+    }
+    ],
+  "paths": {
+    "/auth/create": {
+      "post": {
+        "summary": "Cria um novo usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "example1": {
+                  "summary": "Exemplo de criação de usuário",
+                  "value": {
+                    "username": "felipe",
+                    "email": "felipe@gmail.com",
+                    "idade": 12,
+                    "password": "felipe123"
+                    
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de solicitação inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Username, email, and password are required."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflito - Usuário já registrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "User is already registered"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Error creating user"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/all": {
+      "get": {
+        "summary": "Obtém todos os usuários",
+        "responses": {
+          "200": {
+            "description": "Lista de todos os usuários",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "example": [
+                    {
+                      "_id": "1234567890abcdef",
+                      "username": "johndoe",
+                      "email": "johndoe@example.com",
+                      "__v": 0
+                    },
+                    {
+                      "_id": "0987654321fedcba",
+                      "username": "janedoe",
+                      "email": "janedoe@example.com",
+                      "__v": 0,
+                      "idade": 123
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/email/{email}": {
+      "get": {
+        "summary": "Obtém um usuário pelo email",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Email do usuário que deseja buscar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "_id": "1234567890abcdef",
+                  "username": "johndoe",
+                  "email": "johndoe@example.com",
+                  "__v": 0,
+                  "idade": 123
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de solicitação inválida - email é obrigatório"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/auth/{email}": {
+      "get": {
+        "summary": "Obtém um usuário pelo email com autenticação",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Email do usuário que deseja buscar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserWithAuth"
+                },
+                "example": {
+                    "authentication": {
+                    "password": "hashedpassword",
+                    "salt": "randomsalt"
+                    },
+                    "_id": "1234567890abcdef",
+                    "username": "johndoe",
+                    "email": "johndoe@example.com",
+                    "__v": 0
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de solicitação inválida - email é obrigatório"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/auth/update/{id}": {
+      "put": {
+        "summary": "Atualiza um usuário pelo ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do usuário que deseja atualizar"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "example": 
+                    {
+                      "username": "janedoe",
+                      "email": "janedoe@example.com",
+                      "idade": 123
+                    }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "authentication": {
+                    "password": "hashedpassword",
+                    "salt": "randomsalt"
+                    },
+                    "_id": "1234567890abcdef",
+                    "username": "johndoe",
+                    "email": "johndoe@example.com",
+                    "__v": 0
+                }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de solicitação inválida - ID é obrigatório"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/auth/updatePassword/{id}": {
+            "put": {
+                "summary": "Atualiza a senha de um usuário por ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID do usuário",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Objeto contendo a nova senha",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "newPassword": {
+                                        "type": "string",
+                                        "description": "Nova senha para o usuário"
+                                    }
+                                },
+                                "required": ["newPassword"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Senha atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "password updated"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Id and newPassword are required"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Id not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Internal server error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/delete": {
+      "delete": {
+        "summary": "Deleta um usuário pelo email",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "felipe@gmail.com"
+                  }
+                },
+                "required": ["email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário deletado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "User was deleted"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de solicitação inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "email is required."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "User not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error deleting user"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "johndoe"
+          },
+          "email": {
+            "type": "string",
+            "example": "johndoe@example.com"
+          },
+          "idade": {
+            "type": "integer",
+            "example": 30
+          },
+          "authentication": {
+            "type": "object",
+            "properties": {
+              "password": {
+                "type": "string"
+              },
+              "salt": {
+                "type": "string"
+              }
+            },
+            "required": ["password"]
+          }
+        },
+        "required": ["username", "email", "authentication"]
+      }
+    }
+  }
+}

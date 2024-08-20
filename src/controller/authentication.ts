@@ -157,7 +157,6 @@ export const updatePasswordbyID = async (Request: express.Request, Response: exp
 
 export const getUsersALL = async (Request: express.Request , Response: express.Response)=>{
     try{
-
         //const que recebe todos os usuarios do banco
         const users = await getUsers()
         //retorno em modelo json dos usuarios
